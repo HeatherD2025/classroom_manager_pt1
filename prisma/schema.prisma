@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -11,39 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Instructor {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String? @db.VarChar(100)
-  posts Post[]
-}
-
-model Student {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
-  name         String? @db.VarChar(100)
-  cohort       String? @db.VarChar(100)
-  instructorId Int     @unique
-  posts        Post[]
+model Post {
+  id           Int         @id @default(autoincrement())
+  title        String      @db.VarChar(100)
+  content      String?     
+  published    Boolean     @default(false)
+  author       User        @relation(fields: [authorId], references: [id])
+  authorId     Int
 }
 
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String? @db.VarChar(100)
+  role  UserRole
   posts Post[]
 }
 
-model Post {
-  id           Int         @id @default(autoincrement())
-  title        String      @db.VarChar(100)
-  content      String?     @db.VarChar(100)
-  published    Boolean     @default(false)
-  author       User        @relation(fields: [authorId], references: [id])
-  authorId     Int
-  StudentId    Int
-  Instructor   Instructor? @relation(fields: [instructorId], references: [id])
-  instructorId Int?
-  Student      Student?    @relation(fields: [studentId], references: [id])
-  studentId    Int?
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
 }
