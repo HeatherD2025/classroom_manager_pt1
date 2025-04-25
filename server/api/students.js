@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 });
 
 // Get all students
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res, next) => { 
   try {
     const { rows: students } = await db.query(
       "SELECT * FROM student WHERE instructorId = $1",

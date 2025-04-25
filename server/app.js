@@ -3,6 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const jwt = require("jsonwebtoken");
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 // Logging middleware
 app.use(morgan("dev"));
